@@ -4,15 +4,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { getCities } from "@/utils/functions";
-import { LocalNames } from "@/types/weather";
-interface City {
-  name: string;
-  local_names: LocalNames;
-  lat: number;
-  lon: number;
-  country: string;
-  state: string;
-}
+import { City } from "@/types/weather";
 
 interface SearchInputProps {
   onCitySelect: (city: City) => void;
@@ -27,12 +19,6 @@ export default function SearchContainer({ onCitySelect }: SearchInputProps) {
       if (query.length > 2) {
         const cities = await getCities(query);
         console.log(cities);
-        // const optionsAutocomplete = cities.map((city: any) => ({
-        //   country: city.country,
-        //   name: city.name,
-        //   lat: city.lat,
-        //   lon: city.lon,
-        // }));
         setOptions(cities);
       }
     };
@@ -46,7 +32,10 @@ export default function SearchContainer({ onCitySelect }: SearchInputProps) {
 
   return (
     <section className="w-screen max-w-full flex justify-center">
-      <div className="w-full max-w-[800px]">
+      <div className="w-full max-w-full px-8 xl:px-0 xl:max-w-[800px]">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">Weather App</h1>
+        </div>
         <Autocomplete
           freeSolo
           id="combo-box-demo"
@@ -61,6 +50,31 @@ export default function SearchContainer({ onCitySelect }: SearchInputProps) {
           }}
           onChange={(event, newValue) => {
             onCitySelect(newValue as City);
+          }}
+          sx={{
+            ".MuiAutocomplete-input": {
+              color: "white", // Change the text color here
+            },
+            ".MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white", // Change border color to white
+              },
+              "&:hover fieldset": {
+                borderColor: "white", // Change border color to white on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "white", // Change border color to white when focused
+              },
+            },
+            ".MuiInputLabel-root": {
+              color: "white", // Change label color to white
+            },
+            ".MuiInputBase-input": {
+              "&::placeholder": {
+                color: "white", // Change placeholder color to white
+                opacity: 1, // Ensure placeholder color is not faded
+              },
+            },
           }}
           renderInput={(params) => (
             <TextField
