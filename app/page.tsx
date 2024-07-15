@@ -5,15 +5,7 @@ import { useState, useCallback } from "react";
 import { getWeather } from "@/utils/functions";
 import SearchContainer from "@/components/SearchContainer";
 import WeatherDisplay from "@/components/WeatherDisplay";
-import { LocalNames } from "@/types/weather";
-interface City {
-  name: string;
-  local_names: LocalNames;
-  lat: number;
-  lon: number;
-  country: string;
-  state: string;
-}
+import { City } from "@/types/weather";
 
 export default function Page() {
   const [weather, setWeather] = useState<any>(null);
@@ -24,7 +16,7 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="py-8">
+    <main className="py-12">
       <SearchContainer onCitySelect={handleCitySelect} />
       <WeatherDisplay weather={weather} />
     </main>

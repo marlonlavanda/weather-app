@@ -1,35 +1,3 @@
-export interface Weather {
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  weather: Weather[];
-  base: string;
-  main: Main;
-  visibility: number;
-  wind: { speed: number; deg: number; gust: number };
-  clouds: { all: number };
-  dt: number;
-  sys: {
-    type: number;
-    id: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-  timezone: number;
-  id: number;
-  name: string;
-  cod: number;
-}
-
-export interface Weather {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
-}
-
 export interface Main {
   temp: number;
   feels_like: number;
@@ -39,6 +7,15 @@ export interface Main {
   humidity: number;
   sea_level: number;
   grnd_level: number;
+}
+
+export interface City {
+  name: string;
+  local_names: LocalNames;
+  lat: number;
+  lon: number;
+  country: string;
+  state: string;
 }
 
 export interface LocalNames {
@@ -74,16 +51,24 @@ export interface LocalNames {
   ja: string;
 }
 
-export interface BGGradients {
-  clouds: string;
-  clear: string;
-  rain: string;
-  snow: string;
-  thunderstorm: string;
-  mist: string;
-  fog: string;
-  haze: string;
-  dust: string;
-  smoke: string;
-  drizzle: string;
+export interface Weather {
+  name: string;
+  main: {
+    temp: number;
+    humidity: number;
+    temp_min: number;
+    temp_max: number;
+  };
+  weather: {
+    description: string;
+  }[];
+  sys: {
+    type: number;
+    id: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  dt: number;
+  timezone: string;
 }

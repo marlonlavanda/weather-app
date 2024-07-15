@@ -1,11 +1,6 @@
 import { DateTime } from "luxon";
 
-import {
-  OPEN_WEATHER_URL,
-  OPEN_WEATHER_API_KEY,
-  GEO_DB_URL,
-  GEO_DB_API_KEY,
-} from "@/lib/const";
+import { OPEN_WEATHER_URL, OPEN_WEATHER_API_KEY } from "@/lib/const";
 import { Weather } from "@/types/weather";
 
 /**
@@ -37,7 +32,7 @@ export const getWeather = async (lat: number, lon: number) => {
 /**
  *
  * @param url
- * @returns an object
+ * @returns the data object
  */
 export const fetchData = async (url: string, options?: object) => {
   try {
@@ -57,7 +52,7 @@ export const fetchData = async (url: string, options?: object) => {
 };
 
 /**
- *
+ * Functions that onverts Kelvins to Celsius
  * @param {number} kelvin Temperature value in Kelvins
  * @returns Temperature in Celsius
  */
@@ -65,10 +60,19 @@ export const kelvinToCelsius = (kelvin: number) => {
   return Math.round(kelvin - 273.15);
 };
 
+/**
+ * Format to Local Time
+ * 
+ * @param {number} secs Seconds
+ * @param {string} timezone Timezone
+ * @param {string} format Format Type
+ 
+ * @returns Formatted Time For Instace: 10:20
+ */
 export const formatToLocalTime = (
   secs: number,
-  timezone: number,
-  format: string = "cccc, dd LLL yyyy' | ' hh:mm a"
+  timezone: string,
+  format = "hh:mm"
 ) => {
   return DateTime.fromSeconds(secs).setZone(timezone).toFormat(format);
 };
