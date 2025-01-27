@@ -1,23 +1,21 @@
 "use client";
 
-import { useState, useCallback } from "react";
-
 import { getWeather } from "@/utils/functions";
 import SearchContainer from "@/components/SearchContainer";
 import WeatherDisplay from "@/components/WeatherDisplay";
 import { City } from "@/types/weather";
+import { useWeatherData } from "@/hooks/useWeatherData";
 
 export default function Page() {
-  const [weather, setWeather] = useState<any>(null);
-
-  const handleCitySelect = useCallback(async (city: City) => {
-    const weatherData = await getWeather(city.lat, city.lon);
-    setWeather(weatherData);
-  }, []);
+  const { weather, cities, fetchWeather, fetchCities } = useWeatherData();
 
   return (
     <main className="py-12">
-      <SearchContainer onCitySelect={handleCitySelect} />
+      <SearchContainer
+        onCitySelect={fetchWeather}
+        fetchCities={fetchCities}
+        cities={cities}
+      />
       <WeatherDisplay weather={weather} />
     </main>
   );

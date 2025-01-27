@@ -1,34 +1,21 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
-import { getCities } from "@/utils/functions";
 import { City } from "@/types/weather";
 
 interface SearchInputProps {
   onCitySelect: (city: City) => void;
+  fetchCities: (query: string) => void;
+  cities: City[];
 }
 
-export default function SearchContainer({ onCitySelect }: SearchInputProps) {
-  const [options, setOptions] = useState<City[]>([]);
+export default function SearchContainer({
+  onCitySelect,
+  fetchCities,
+  cities,
+}: SearchInputProps) {
   const [inputValue, setInputValue] = useState<string>("");
-
-  useEffect(() => {
-    const loadOptions = async (query: string) => {
-      if (query.length > 2) {
-        const cities = await getCities(query);
-        console.log(cities);
-        setOptions(cities);
-      }
-    };
-
-    if (inputValue) {
-      loadOptions(inputValue);
-    } else {
-      setOptions([]);
-    }
-  }, [inputValue]);
 
   return (
     <section className="w-screen max-w-full flex justify-center">
@@ -39,7 +26,8 @@ export default function SearchContainer({ onCitySelect }: SearchInputProps) {
         <Autocomplete
           freeSolo
           id="combo-box-demo"
-          options={options}
+          options={cities}
+          value={inputValue}
           getOptionLabel={(option) =>
             typeof option === "string"
               ? option
@@ -47,6 +35,7 @@ export default function SearchContainer({ onCitySelect }: SearchInputProps) {
           }
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
+            fetchCities(newInputValue);
           }}
           onChange={(event, newValue) => {
             onCitySelect(newValue as City);

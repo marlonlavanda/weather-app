@@ -10,7 +10,7 @@ import { Weather } from "@/types/weather";
  * @returns {Promise<Weather>} A promise that resolves to a Weather object.
  */
 export const getCities = async (city: string) => {
-  const url = `${OPEN_WEATHER_URL}/geo/1.0/direct?q=${city}&limit=5&appid=${OPEN_WEATHER_API_KEY}`;
+  const url = `${OPEN_WEATHER_URL}/geo/1.0/direct?q=${city}&limit=3&appid=${OPEN_WEATHER_API_KEY}`;
 
   const response = await fetchData(url);
   return response;
@@ -46,8 +46,8 @@ export const fetchData = async (url: string, options?: object) => {
 
     return data;
   } catch (error) {
-    console.error(error);
-    throw new Error();
+    console.error("Fetch Error:", error);
+    throw new Error("Failed to fetch data");
   }
 };
 
@@ -75,4 +75,9 @@ export const formatToLocalTime = (
   format = "hh:mm"
 ) => {
   return DateTime.fromSeconds(secs).setZone(timezone).toFormat(format);
+};
+
+export const searchQuery = (query: string) => {
+  const url = `https://api.tvmaze.com/search/shows?q=${query}`;
+  return encodeURI(url);
 };
